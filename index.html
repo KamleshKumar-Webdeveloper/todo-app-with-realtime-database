@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"
+    ></script>
+
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
+    ></script>
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"
+    ></script>
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"
+    ></script>
+
+    <script defer src="./init-firebase.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Todo App</h1>
+      <input type="text" id="todo-input" placeholder="Add Your New todo" />
+      <button id="add-todo" onclick="addTodo()">Add</button>
+      <ul id="todo-list"></ul>
+    </div>
+  <script src="./script.js"></script>
+    <!-- <script>
+      const addTodo = () => {
+        const todoInput = document.getElementById("todo-input").value;
+        if (!todoInput) return; // Don't add empty todos
+
+        const todoList = document.getElementById("todo-list");
+        const todoItem = document.createElement("li");
+
+        // Create span for todo text (makes editing easier)
+        const todoText = document.createElement("div");
+        todoText.innerText = todoInput;
+        todoItem.appendChild(todoText);
+
+        const newTodoRef = firebase.database().ref("todos").push({
+          todo: todoInput,
+        });
+        const todoId = newTodoRef.key;
+
+        const editBtn = document.createElement("button");
+        editBtn.innerText = "Edit";
+        editBtn.onclick = () => {
+          // Put current todo text in main input field
+          const todoInput = document.getElementById("todo-input");
+          todoInput.value = todoText.innerText;
+          todoInput.focus();
+
+          // Change Add button temporarily to Save button
+          const addButton = document.getElementById("add-todo");
+          const originalText = addButton.innerText;
+          addButton.innerText = "Save";
+
+          // Store old onclick
+          const originalOnClick = addButton.onclick;
+
+          // Set new onclick for save functionality
+          addButton.onclick = () => {
+            const newText = todoInput.value;
+            if (newText) {
+              todoText.innerText = newText;
+              firebase
+                .database()
+                .ref("todos")
+                .child(todoId)
+                .update({ todo: newText });
+
+              // Reset input and button
+              todoInput.value = "";
+              addButton.innerText = originalText;
+              addButton.onclick = originalOnClick;
+            }
+          };
+        };
+        const dbRef = firebase.database().ref();
+        dbRef
+          .child("  ")
+          .child(userId)
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log(snapshot.val());
+            } else {
+              console.log("No data available");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        // Create delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "Delete";
+        deleteBtn.onclick = () => {
+          todoList.removeChild(todoItem);
+          firebase.database().ref("todos").child(todoId).remove();
+        };
+
+        todoItem.appendChild(editBtn);
+        todoItem.appendChild(deleteBtn);
+        todoList.appendChild(todoItem);
+
+        document.getElementById("todo-input").value = "";
+      };
+    </script> -->
+    <!-- <script src="script.js">
+            const addTodo = () => {
+        const todoInput = document.getElementById("todo-input").value;
+        if (!todoInput) return;
+
+        firebase
+          .database()
+          .ref("todos")
+          .push({
+            todo: todoInput,
+          })
+          .then(() => {
+            document.getElementById("todo-input").value = "";
+            loadTodos();
+          });
+      };
+
+      const loadTodos = () => {
+        const todoList = document.getElementById("todo-list");
+        todoList.innerHTML = "";
+        firebase
+          .database()
+          .ref("todos")
+          .on("value", (snapshot) => {
+            snapshot.forEach((todo) => {
+              const todoItem = document.createElement("li");
+              todoItem.innerText = todo.val().todo;
+              todoList.appendChild(todoItem);
+            });
+          });
+      };
+      document.addEventListener("DOMContentLoaded", loadTodos);
+    </script>  -->
+  </body>
+</html>
